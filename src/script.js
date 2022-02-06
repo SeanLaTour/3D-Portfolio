@@ -8,7 +8,8 @@ const textureLoader = new THREE.TextureLoader()
 const imageLoader= new THREE.ImageLoader()
 const earthTexture = textureLoader.load('/textures/tympSEc.jpeg')
 const earthPhoto = textureLoader.load('/textures/earthMap.jpeg')
-const spaceBackground = imageLoader.load('/textures/spaceBackground.jpg')
+const moonTexture = textureLoader.load('/textures/moonNormalMap.png')
+const moonPhoto = textureLoader.load('/textures/moonMap.jpeg')
 
 // Debug
 const gui = new dat.GUI()
@@ -21,26 +22,34 @@ const scene = new THREE.Scene()
 
 
 // Objects
-const sphereGeometry = new THREE.SphereBufferGeometry(.5, 64, 64);
+const earthGeometry = new THREE.SphereBufferGeometry(.5, 64, 64);
+const moonGeometry = new THREE.SphereBufferGeometry(.2, 64, 64);
 
 // Materials
 
-const material = new THREE.MeshStandardMaterial({map: earthPhoto})
-// material.normalMap = earthPhoto
-material.metalness = 0.7
-material.roughness = 0.2
-material.normalMap = earthTexture
+const earthMaterial = new THREE.MeshStandardMaterial({map: earthPhoto})
+// earthMaterial.normalMap = earthPhoto
+earthMaterial.metalness = 0.7
+earthMaterial.roughness = 0.2
+earthMaterial.normalMap = earthTexture
+
+const moonMaterial = new THREE.MeshStandardMaterial({map: moonPhoto, normalMap: moonTexture, metalness: 0.7, roughness: 0.2})
+
+
 
 // Mesh
-const sphere = new THREE.Mesh(sphereGeometry,material)
-scene.add(sphere)
+const earth = new THREE.Mesh(earthGeometry,earthMaterial)
+scene.add(earth)
+
+const moon = new THREE.Mesh(moonGeometry,moonMaterial)
+scene.add(moon)
 
 // Lights
 
 const pointLight = new THREE.PointLight(0xffffff, 0.5)
-pointLight.position.x = 2
-pointLight.position.y = 3
-pointLight.position.z = 4
+pointLight.position.x = 4
+pointLight.position.y = 5
+pointLight.position.z = 6
 scene.add(pointLight)
 
 const ambientLight = new THREE.AmbientLight(0xffffff, 1)
@@ -108,14 +117,13 @@ document.addEventListener('mousemove', onDocumentMouseMove)
  const windowHalfY = window.innerHeight / 2
 
  function onDocumentMouseMove(event) {
-     mouseX = (event.clientX * 4 - windowHalfX)
-     mouseY = (event.clientY * 4 - windowHalfY)
+     mouseX = (event.clientX * 10 - windowHalfX)
  }
 
 document.addEventListener('scroll', onDocumentScrollMove)
 
 function onDocumentScrollMove(event) {
-
+    earth.position.z = window.scrollY * 0.0005
 }
 
 const clock = new THREE.Clock()
@@ -128,8 +136,12 @@ const tick = () =>
     const elapsedTime = clock.getElapsedTime()
 
     // Update objects
-    sphere.rotation.y = -.5 * elapsedTime
-    sphere.rotation.y =   (targetX - sphere.rotation.y)
+    earth.rotation.y = -.5 * elapsedTime
+    moon.rotation.y = .5 * elapsedTime
+    moon.position.x = Math.sin(elapsedTime/2) * 3;
+    moon.position.z = Math.cos(elapsedTime/2) * 3;
+
+    earth.rotation.y =   (targetX - earth.rotation.y)
 
 
     // Update Orbital Controls
