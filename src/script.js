@@ -1,92 +1,155 @@
-import './style.css'
-import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import * as dat from 'dat.gui'
+import "./style.css";
+import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import * as dat from "dat.gui";
 
 // Loading
-const textureLoader = new THREE.TextureLoader()
-const imageLoader= new THREE.ImageLoader()
-const earthTexture = textureLoader.load('/textures/tympSEc.jpeg')
-const earthPhoto = textureLoader.load('/textures/earthMap.jpeg')
-const moonTexture = textureLoader.load('/textures/moonNormalMap.png')
-const moonPhoto = textureLoader.load('/textures/moonMap.jpeg')
+const textureLoader = new THREE.TextureLoader();
+const imageLoader = new THREE.ImageLoader();
+const earthTexture = textureLoader.load("/textures/tympSEc.jpeg");
+const earthPhoto = textureLoader.load("/textures/earthMap.jpeg");
+const moonTexture = textureLoader.load("/textures/moonNormalMap.png");
+const moonPhoto = textureLoader.load("/textures/moonMap.jpeg");
+const asteroidTexture = textureLoader.load("/textures/asteroidNormalMap.jpeg");
+const asteroidPhoto = textureLoader.load("/textures/asteroidMap.jpg");
 
 // Debug
-const gui = new dat.GUI()
+const gui = new dat.GUI();
 
 // Canvas
-const canvas = document.querySelector('canvas.webgl')
+const canvas = document.querySelector("canvas.webgl");
 
 // Scene
-const scene = new THREE.Scene()
-
+const scene = new THREE.Scene();
 
 // Objects
-const earthGeometry = new THREE.SphereBufferGeometry(.5, 64, 64);
-const moonGeometry = new THREE.SphereBufferGeometry(.2, 64, 64);
+const earthGeometry = new THREE.SphereBufferGeometry(1, 64, 64);
+const moonGeometry = new THREE.SphereBufferGeometry(0.2, 55, 55);
+const shootingStarGeometry = new THREE.SphereBufferGeometry(0.01, 40, 40);
+const astroidGeometry = new THREE.SphereBufferGeometry(0.08, 22, 22);
 
 // Materials
 
-const earthMaterial = new THREE.MeshStandardMaterial({map: earthPhoto})
-// earthMaterial.normalMap = earthPhoto
-earthMaterial.metalness = 0.7
-earthMaterial.roughness = 0.2
-earthMaterial.normalMap = earthTexture
+const earthMaterial = new THREE.MeshStandardMaterial({ map: earthPhoto });
+earthMaterial.metalness = 0.7;
+earthMaterial.roughness = 0.2;
+earthMaterial.normalMap = earthTexture;
 
-const moonMaterial = new THREE.MeshStandardMaterial({map: moonPhoto, normalMap: moonTexture, metalness: 0.7, roughness: 0.2})
+const moonMaterial = new THREE.MeshStandardMaterial({
+  map: moonPhoto,
+  normalMap: moonTexture,
+  metalness: 0.7,
+  roughness: 0.2,
+});
 
+const shootingStarMaterial = new THREE.MeshStandardMaterial({
+  opacity: 0.2,
+});
 
+const asteroidMaterial = new THREE.MeshStandardMaterial({
+  map: asteroidPhoto,
+  normalMap: asteroidTexture,
+});
 
 // Mesh
-const earth = new THREE.Mesh(earthGeometry,earthMaterial)
-scene.add(earth)
+const earth = new THREE.Mesh(earthGeometry, earthMaterial);
+scene.add(earth);
 
-const moon = new THREE.Mesh(moonGeometry,moonMaterial)
-scene.add(moon)
+const moon = new THREE.Mesh(moonGeometry, moonMaterial);
+scene.add(moon);
+
+const shootingStar = new THREE.Mesh(shootingStarGeometry, shootingStarMaterial);
+scene.add(shootingStar);
+
+const asteroidOne = new THREE.Mesh(astroidGeometry, asteroidMaterial);
+asteroidOne.metalness = 0.9;
+asteroidOne.roughness = 0.2;
+asteroidOne.position.y = -6;
+scene.add(asteroidOne);
+
+const asteroidTwo = new THREE.Mesh(astroidGeometry, asteroidMaterial);
+asteroidTwo.metalness = 0.9;
+asteroidTwo.roughness = 0.2;
+asteroidTwo.position.y = -6;
+scene.add(asteroidTwo);
+
+const asteroidThree = new THREE.Mesh(astroidGeometry, asteroidMaterial);
+asteroidThree.metalness = 0.9;
+asteroidThree.roughness = 0.2;
+asteroidThree.position.y = -6;
+scene.add(asteroidThree);
+
+const asteroidFour = new THREE.Mesh(astroidGeometry, asteroidMaterial);
+asteroidFour.metalness = 0.9;
+asteroidFour.roughness = 0.2;
+asteroidFour.position.y = -6;
+scene.add(asteroidFour);
+
+const asteroidFive = new THREE.Mesh(astroidGeometry, asteroidMaterial);
+asteroidFive.metalness = 0.9;
+asteroidFive.roughness = 0.2;
+asteroidFive.position.y = -6;
+scene.add(asteroidFive);
+// for (let i = 0; i < 20; i++) {
+//     const asteroid = new THREE.Mesh(astroidGeometry, asteroidMaterial)
+
+//     scene.add(asteroid)
+// }
 
 // Lights
 
-const pointLight = new THREE.PointLight(0xffffff, 0.5)
-pointLight.position.x = 4
-pointLight.position.y = 5
-pointLight.position.z = 6
-scene.add(pointLight)
+const pointLight = new THREE.PointLight(0xffffff, 0.5);
+pointLight.position.x = 4;
+pointLight.position.y = 5;
+pointLight.position.z = 6;
+scene.add(pointLight);
 
-const ambientLight = new THREE.AmbientLight(0xffffff, 1)
-scene.add(ambientLight)
+const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+scene.add(ambientLight);
+
+const shootingStarLight = new THREE.PointLight(0x884488, -0.005);
+pointLight.position.x = -5;
+pointLight.position.y = 1;
+pointLight.position.z = 1;
+scene.add(shootingStarLight);
+shootingStarLight.position.x = -20;
 
 /**
  * Sizes
  */
 const sizes = {
-    width: window.innerWidth,
-    height: window.innerHeight
-}
+  width: window.innerWidth,
+  height: window.innerHeight,
+};
 
-window.addEventListener('resize', () =>
-{
-    // Update sizes
-    sizes.width = window.innerWidth
-    sizes.height = window.innerHeight
+window.addEventListener("resize", () => {
+  // Update sizes
+  sizes.width = window.innerWidth;
+  sizes.height = window.innerHeight;
 
-    // Update camera
-    camera.aspect = sizes.width / sizes.height
-    camera.updateProjectionMatrix()
+  // Update camera
+  camera.aspect = sizes.width / sizes.height;
+  camera.updateProjectionMatrix();
 
-    // Update renderer
-    renderer.setSize(sizes.width, sizes.height)
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-})
+  // Update renderer
+  renderer.setSize(sizes.width, sizes.height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+});
 
 /**
  * Camera
  */
 // Base camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.x = 0
-camera.position.y = 0
-camera.position.z = 2
-scene.add(camera)
+const camera = new THREE.PerspectiveCamera(
+  50,
+  sizes.width / sizes.height,
+  0.1,
+  100
+);
+camera.position.x = 0;
+camera.position.y = 0;
+camera.position.z = 6;
+scene.add(camera);
 
 // Controls
 // const controls = new OrbitControls(camera, canvas)
@@ -96,62 +159,109 @@ scene.add(camera)
  * Renderer
  */
 const renderer = new THREE.WebGLRenderer({
-    canvas: canvas,
-    alpha: true
-})
-renderer.setSize(sizes.width, sizes.height)
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+  canvas: canvas,
+  alpha: true,
+});
+renderer.setSize(sizes.width, sizes.height);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 /**
  * Animate
  */
 
-document.addEventListener('mousemove', onDocumentMouseMove)
- let mouseX = 0 
- let mouseY = 0
+document.addEventListener("mousemove", onDocumentMouseMove);
+let mouseX = 0;
+let mouseY = 0;
 
- let targetX = 0
- let targetY = 0
+let targetX = 0;
+let targetY = 0;
 
- const windowHalfX = window.innerWidth / 2
- const windowHalfY = window.innerHeight / 2
+const windowHalfX = window.innerWidth / 2;
+const windowHalfY = window.innerHeight / 2;
 
- function onDocumentMouseMove(event) {
-     mouseX = (event.clientX * 10 - windowHalfX)
- }
+let movingMouse = false;
 
-document.addEventListener('scroll', onDocumentScrollMove)
+function onDocumentMouseMove(event) {
+  mouseX = event.clientX * 10 - windowHalfX;
+  movingMouse = true;
+  var timeout;
+  document.onmousemove = function () {
+    clearTimeout(timeout);
+    timeout = setTimeout(function () {
+      movingMouse = false;
+    }, 10);
+  };
+}
+
+document.addEventListener("scroll", onDocumentScrollMove);
 
 function onDocumentScrollMove(event) {
-    earth.position.z = window.scrollY * 0.0005
+  earth.position.z = window.scrollY * 0.001;
+  moon.position.z = window.scrollY * 0.001;
+  console.log(window.scrollY);
+  if (window.scrollY > 500) {
+    shootingStar.position.x = (window.scrollY - 1199) * 0.01 - 5;
+    shootingStar.position.y = (window.scrollY - 1199) * 0.007 - 4;
+    shootingStarLight.position.x = (window.scrollY - 1199) * 0.01 - 5;
+    shootingStarLight.position.y = (window.scrollY - 1199) * 0.007 - 4;
+    asteroidOne.position.y = (window.scrollY - 1199) * 0.007 - 4.3;
+    asteroidOne.position.x = (window.scrollY - 1199) * 0.00075 + 2.3;
+    asteroidTwo.position.y = (window.scrollY - 1199) * 0.007 - 3.5;
+    asteroidTwo.position.x = (window.scrollY - 1199) * 0.00075 + 1;
+    asteroidThree.position.y = (window.scrollY - 1199) * 0.007 - 4.7;
+    asteroidThree.position.x = (window.scrollY - 1199) * 0.00075 - 3.3;
+    asteroidFour.position.y = (window.scrollY - 1199) * 0.007 - 3.6;
+    asteroidFour.position.x = (window.scrollY - 1199) * 0.00075 - 1.7;
+    asteroidFive.position.y = (window.scrollY - 1199) * 0.007 - 5;
+    asteroidFive.position.x = (window.scrollY - 1199) * 0.00075 - 0.1;
+  }
+  if (window.scrollY > 1200) {
+    shootingStarLight.intensity = window.scrollY * 0.00075;
+    console.log("intense", shootingStarLight.intensity);
+    earth.position.y = (window.scrollY - 1199) * 0.005;
+    moon.position.y = (window.scrollY - 1199) * 0.005;
+  }
 }
 
-const clock = new THREE.Clock()
+const clock = new THREE.Clock();
 
-const tick = () =>
-{
+const tick = () => {
+  targetX = mouseX * 0.0001;
+  targetY = mouseY * 0.0001;
+  const elapsedTime = clock.getElapsedTime();
 
-    targetX = mouseX * 0.0001
-    targetY = mouseY * 0.0001
-    const elapsedTime = clock.getElapsedTime()
+  // Update objects
 
-    // Update objects
-    earth.rotation.y = -.5 * elapsedTime
-    moon.rotation.y = .5 * elapsedTime
-    moon.position.x = Math.sin(elapsedTime/2) * 3;
-    moon.position.z = Math.cos(elapsedTime/2) * 3;
+  asteroidOne.rotation.y = 0.5 * elapsedTime;
+  asteroidOne.rotation.z = 0.5 * elapsedTime;
+  asteroidTwo.rotation.y = 0.2 * elapsedTime;
+  asteroidTwo.rotation.x = 0.7 * elapsedTime;
+  asteroidThree.rotation.y = 0.5 * elapsedTime;
+  asteroidThree.rotation.z = 0.8 * elapsedTime;
+  asteroidFour.rotation.x = 0.5 * elapsedTime;
+  asteroidFour.rotation.y = 0.4 * elapsedTime;
+  asteroidFive.rotation.y = 0.9 * elapsedTime;
+  asteroidFive.rotation.x = 0.1 * elapsedTime;
 
-    earth.rotation.y =   (targetX - earth.rotation.y)
+  earth.rotation.y = -0.5 * elapsedTime;
+  moon.rotation.y = -0.5 * elapsedTime;
+  moon.position.x = Math.sin(elapsedTime / 2) * 3;
+  moon.position.z = Math.cos(elapsedTime / 2) * 3;
+  if (window.scrollY < 1200) {
+    moon.position.y = Math.cos(elapsedTime / 2) * -0.7;
+  }
 
+  earth.rotation.y = targetX - earth.rotation.y;
+  moon.rotation.y = targetX - moon.rotation.y;
 
-    // Update Orbital Controls
-    // controls.update()
+  // Update Orbital Controls
+  // controls.update()
 
-    // Render
-    renderer.render(scene, camera)
+  // Render
+  renderer.render(scene, camera);
 
-    // Call tick again on the next frame
-    window.requestAnimationFrame(tick)
-}
+  // Call tick again on the next frame
+  window.requestAnimationFrame(tick);
+};
 
-tick()
+tick();
