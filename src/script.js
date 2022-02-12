@@ -12,6 +12,7 @@ const moonTexture = textureLoader.load("/textures/moonNormalMap.png");
 const moonPhoto = textureLoader.load("/textures/moonMap.jpeg");
 const asteroidTexture = textureLoader.load("/textures/asteroidNormalMap.jpeg");
 const asteroidPhoto = textureLoader.load("/textures/asteroidMap.jpg");
+const asteroidRocksPhoto = textureLoader.load("/textures/asteroidSurface.jpg");
 
 // Debug
 const gui = new dat.GUI();
@@ -47,7 +48,7 @@ const shootingStarMaterial = new THREE.MeshStandardMaterial({
 });
 
 const asteroidMaterial = new THREE.MeshStandardMaterial({
-  map: asteroidPhoto,
+  map: asteroidRocksPhoto,
   normalMap: asteroidTexture,
 });
 
@@ -59,7 +60,6 @@ const moon = new THREE.Mesh(moonGeometry, moonMaterial);
 scene.add(moon);
 
 const shootingStar = new THREE.Mesh(shootingStarGeometry, shootingStarMaterial);
-scene.add(shootingStar);
 
 const asteroidOne = new THREE.Mesh(astroidGeometry, asteroidMaterial);
 asteroidOne.metalness = 0.9;
@@ -204,16 +204,16 @@ function onDocumentScrollMove(event) {
     shootingStar.position.y = (window.scrollY - 1199) * 0.007 - 4;
     shootingStarLight.position.x = (window.scrollY - 1199) * 0.01 - 5;
     shootingStarLight.position.y = (window.scrollY - 1199) * 0.007 - 4;
-    asteroidOne.position.y = (window.scrollY - 1199) * 0.007 - 4.3;
-    asteroidOne.position.x = (window.scrollY - 1199) * 0.00075 + 2.3;
-    asteroidTwo.position.y = (window.scrollY - 1199) * 0.007 - 3.5;
-    asteroidTwo.position.x = (window.scrollY - 1199) * 0.00075 + 1;
+    asteroidOne.position.y = (window.scrollY - 1199) * 0.007 - 5.3;
+    asteroidOne.position.x = (window.scrollY - 1199) * 0.008 - 4.3;
+    asteroidTwo.position.y = (window.scrollY - 1199) * 0.007 - 5.9;
+    asteroidTwo.position.x = (window.scrollY - 1199) * 0.008 - 6;
     asteroidThree.position.y = (window.scrollY - 1199) * 0.007 - 4.7;
-    asteroidThree.position.x = (window.scrollY - 1199) * 0.00075 - 3.3;
+    asteroidThree.position.x = (window.scrollY - 1199) * 0.005 - 5.3;
     asteroidFour.position.y = (window.scrollY - 1199) * 0.007 - 3.6;
-    asteroidFour.position.x = (window.scrollY - 1199) * 0.00075 - 1.7;
+    asteroidFour.position.x = (window.scrollY - 1199) * 0.007 - 8.7;
     asteroidFive.position.y = (window.scrollY - 1199) * 0.007 - 5;
-    asteroidFive.position.x = (window.scrollY - 1199) * 0.00075 - 0.1;
+    asteroidFive.position.x = (window.scrollY - 1199) * 0.005 - 0.1;
   }
   if (window.scrollY > 1200) {
     shootingStarLight.intensity = window.scrollY * 0.00075;
