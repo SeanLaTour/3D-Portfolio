@@ -15,7 +15,7 @@ const asteroidPhoto = textureLoader.load("/textures/asteroidMap.jpg");
 const asteroidRocksPhoto = textureLoader.load("/textures/asteroidSurface.jpg");
 
 // Debug
-const gui = new dat.GUI();
+
 
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
