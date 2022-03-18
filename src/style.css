@@ -16,7 +16,8 @@ body {
   left: 0;
   outline: none;
   background: url("../static/textures/spaceBackground.jpg");
-  background-size: 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   -webkit-animation: backgroundScroll 1s linear 1;
   -webkit-animation-fill-mode: forwards;
   animation: backgroundScroll 15s linear 1;
@@ -99,5 +100,8 @@ section {
   }
   p {
     font-size: 1rem;
+  }
+  .container2 {
+    padding: 2rem
   }
 }
